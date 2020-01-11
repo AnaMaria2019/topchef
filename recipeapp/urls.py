@@ -7,9 +7,11 @@ from recipeapp.views import (
     CommentCreateView,
     recipe_list,
     recipe_detail,
+    recipe_delete,
     RecipeCreateView,
     category_detail,
     CategoryCreateView,
+    TagCreateView,
 )
 
 urlpatterns = [
@@ -23,4 +25,6 @@ urlpatterns = [
     path('recipe/create', RecipeCreateView.as_view(), name='recipe_create'),
     path('category/create', CategoryCreateView.as_view(), name='category_create'),
     path('category/<int:pk>', category_detail, name='category_detail'),
+    path('recipe/<int:pk>/delete', recipe_delete, name='recipe_delete'),
+    path('tag/create', TagCreateView.as_view(), name='tag_create'),
 ]

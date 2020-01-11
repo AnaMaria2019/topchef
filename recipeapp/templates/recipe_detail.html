@@ -22,8 +22,7 @@
 
     <div class="m-2">
       {% if user == recipe.user %}
-        <a class="btn btn-secondary" href="#">Edit recipe</a>
-        <a class="btn btn-secondary" href="#">Delete recipe</a>
+        <a class="btn btn-secondary" href="{% url 'recipe_delete' recipe.id %}">Delete recipe</a>
       {% endif %}
     </div>
 

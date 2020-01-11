@@ -96,6 +96,31 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
         )
         return redirect(reverse_lazy("recipe_detail", kwargs={"pk": recipe.id}))
 
+
+@login_required
+def recipe_delete(request, pk):
+    if request.method == "POST":
+        recipe = Recipe.objects.get(pk=pk)
+        recipe.delete()
+        return redirect(reverse_lazy("recipe_list"))
+    elif request.method == "GET":
+        recipe = Recipe.objects.get(pk=pk)
+        return render(request, "recipe_delete.html",
+                      {"recipe": recipe})
+
+
+class TagCreateView(LoginRequiredMixin, CreateView):
+    model = Tag
+    fields = ['name']
+    template_name = 'tag_create.html'
+
+    def form_valid(self, form):
+        tag = Tag.objects.create(
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy("category_list"))
+
+
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     fields = ['title', 'image']
@@ -106,6 +131,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
             **form.cleaned_data
         )
         return redirect(reverse_lazy("category_list"))
+
 
 def category_detail(request, pk):
     category = Category.objects.get(id=pk)

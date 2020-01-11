@@ -32,6 +32,7 @@ class Recipe(models.Model):
     # de adaugat clasa Ingredients
     method = models.CharField(max_length=800)
     rating = models.IntegerField(default=0)
+    tags = models.ManyToManyField(Tag, related_name='tags', blank=True)
 
 
 class Comment(models.Model):
