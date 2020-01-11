@@ -58,6 +58,41 @@ class LogoutView(LoginRequiredMixin, View):
         return redirect(reverse_lazy('category_list'))
 
 
+class UserProfileView(DetailView):
+    template_name = 'user_profile.html'
+    context_object_name = 'userprofile'
+
+    def get_object(self):
+        user = User.objects.get(id=self.kwargs['pk'])
+        return user
+
+
+class UserProfileEditView(LoginRequiredMixin, UpdateView):
+    model = UserProfile
+    form_class = UserProfileForm
+    template_name = 'edit_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileEditView, self).get_context_data(**kwargs)
+        user = self.object.user
+        context['form'].fields['first_name'].initial = user.first_name
+        context['form'].fields['last_name'].initial = user.last_name
+        context['form'].fields['e_mail'].initial = user.email
+        return context
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        self.object.selfdescription = data['selfdescription']
+        self.object.avatar = data['avatar']
+        self.request.user.first_name = data['first_name']
+        self.request.user.last_name = data['last_name']
+        self.request.user.email = data['e_mail']
+        self.object.save()
+        self.request.user.save()
+        return redirect(reverse_lazy('user_profile',
+                                     kwargs={'pk': self.request.user.id}))
+
+
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     fields = ['content']
@@ -69,7 +104,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
             recipe=recipe,
             **form.cleaned_data
         )
-        return redirect(reverse_lazy('show_recipe'))
+        return redirect(reverse_lazy('recipe_detail', kwargs={'pk': self.kwargs['pk']}))
 
 
 def recipe_list(request):
@@ -96,6 +131,31 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
         )
         return redirect(reverse_lazy("recipe_detail", kwargs={"pk": recipe.id}))
 
+
+@login_required
+def recipe_delete(request, pk):
+    if request.method == "POST":
+        recipe = Recipe.objects.get(pk=pk)
+        recipe.delete()
+        return redirect(reverse_lazy("recipe_list"))
+    elif request.method == "GET":
+        recipe = Recipe.objects.get(pk=pk)
+        return render(request, "recipe_delete.html",
+                      {"recipe": recipe})
+
+
+class TagCreateView(LoginRequiredMixin, CreateView):
+    model = Tag
+    fields = ['name']
+    template_name = 'tag_create.html'
+
+    def form_valid(self, form):
+        tag = Tag.objects.create(
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy("category_list"))
+
+
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     fields = ['title', 'image']
@@ -107,7 +167,29 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
         )
         return redirect(reverse_lazy("category_list"))
 
+
 def category_detail(request, pk):
     category = Category.objects.get(id=pk)
-    recipe_list = Recipe.objects.filter(category=category);
+    recipe_list = Recipe.objects.filter(category=category)
     return render(request, "category_detail.html", {"category": category, "recipe_list": recipe_list})
+
+
+class CommentEditView(LoginRequiredMixin, UpdateView):
+    model = Comment
+    fields = ['content']
+    pk_url_kwarg = 'pk_comment'
+    template_name = 'edit_comment.html'
+
+    def form_valid(self, form):
+        comment = Comment.objects.get(pk=self.kwargs['pk_comment'])
+        comment.content = form.cleaned_data['content']
+        comment.save()
+        return redirect(reverse_lazy('recipe_detail', kwargs={'pk': self.kwargs['pk']}))
+
+
+class CommentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Comment
+    pk_url_kwarg = 'pk_comment'
+
+    def get_success_url(self):
+        return redirect(reverse_lazy('recipe_detail', kwargs={'pk': self.kwargs['pk']}))

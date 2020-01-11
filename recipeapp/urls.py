@@ -7,9 +7,15 @@ from recipeapp.views import (
     CommentCreateView,
     recipe_list,
     recipe_detail,
+    recipe_delete,
     RecipeCreateView,
     category_detail,
     CategoryCreateView,
+    TagCreateView,
+    CommentEditView,
+    CommentDeleteView,
+    UserProfileView,
+    UserProfileEditView,
 )
 
 urlpatterns = [
@@ -18,9 +24,15 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('recipe/<int:pk>/comment/create', CommentCreateView.as_view(), name='create_comment'),
+    path('recipe/<int:pk>/comment/<int:pk_comment>/edit', CommentEditView.as_view(), name='edit_comment'),
+    path('recipe/<int:pk>/comment/<int:pk_comment>/delete', CommentDeleteView.as_view(), name='delete_comment'),
+    path('profile/<int:pk>', UserProfileView.as_view(), name='user_profile'),
+    path('profile/<int:pk>/edit', UserProfileEditView.as_view(), name='edit_user_profile'),
     path('recipe/recipe_list', recipe_list, name='recipe_list'),
     path('recipe/<int:pk>', recipe_detail, name='recipe_detail'),
     path('recipe/create', RecipeCreateView.as_view(), name='recipe_create'),
     path('category/create', CategoryCreateView.as_view(), name='category_create'),
     path('category/<int:pk>', category_detail, name='category_detail'),
+    path('recipe/<int:pk>/delete', recipe_delete, name='recipe_delete'),
+    path('tag/create', TagCreateView.as_view(), name='tag_create'),
 ]
