@@ -13,6 +13,7 @@ from django.views.generic import (
 from recipeapp.models import User, UserProfile, Tag, Category, Recipe, Comment
 from recipeapp.forms import UserProfileForm
 
+
 class RegisterView(CreateView):
     template_name = 'register.html'
     form_class = UserCreationForm
@@ -50,3 +51,17 @@ class LogoutView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         logout(request)
         return redirect(reverse_lazy('category_list'))
+
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    fields = ['content']
+
+    def form_valid(self, form):
+        recipe = Recipe.objects.get(id=self.kwargs['pk'])
+        Comment.objects.create(
+            created_by=self.request.user,
+            recipe=recipe,
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy('show_recipe'))
