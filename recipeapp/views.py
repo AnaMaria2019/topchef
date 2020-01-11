@@ -14,6 +14,10 @@ from recipeapp.models import User, UserProfile, Tag, Category, Recipe, Comment
 from recipeapp.forms import UserProfileForm
 
 
+def index(request):
+    category_list = Category.objects.all()
+    return render(request, 'index.html', {'category_list': category_list})
+
 class RegisterView(CreateView):
     template_name = 'register.html'
     form_class = UserCreationForm
@@ -24,7 +28,7 @@ class RegisterView(CreateView):
         user = User.objects.create_user(username=data['username'],
                                         password=data['password1'])
         UserProfile.objects.create(user=user)
-        return reverse_lazy('category_list')
+        return redirect(reverse_lazy('category_list'))
 
 
 class LoginView(TemplateView):

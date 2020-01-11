@@ -17,6 +17,7 @@ class Tag(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=30)
+    image = models.FileField(upload_to='media/', blank=True, null=True)
 
 
 class Recipe(models.Model):
