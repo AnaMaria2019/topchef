@@ -6,6 +6,7 @@ from recipeapp.views import (
     LogoutView,
     CommentCreateView,
     CommentEditView,
+    CommentDeleteView,
 )
 
 urlpatterns = [
