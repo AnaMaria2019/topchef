@@ -68,4 +68,25 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
             recipe=recipe,
             **form.cleaned_data
         )
-        return redirect(reverse_lazy('show_recipe'))
+        return redirect(reverse_lazy('recipe_detail', kwargs={'pk': self.kwargs['pk']}))
+
+
+class CommentEditView(LoginRequiredMixin, UpdateView):
+    model = Comment
+    fields = ['content']
+    pk_url_kwarg = 'pk_comment'
+    template_name = 'edit_comment.html'
+
+    def form_valid(self, form):
+        comment = Comment.objects.get(pk=self.kwargs['pk_comment'])
+        comment.content = form.cleaned_data['content']
+        comment.save()
+        return redirect(reverse_lazy('recipe_detail', kwargs={'pk': self.kwargs['pk']}))
+
+
+class CommentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Comment
+    pk_url_kwarg = 'pk_comment'
+
+    def get_success_url(self):
+        return redirect(reverse_lazy('recipe_detail', kwargs={'pk': self.kwargs['pk']}))

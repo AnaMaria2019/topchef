@@ -5,6 +5,7 @@ from recipeapp.views import (
     LoginView,
     LogoutView,
     CommentCreateView,
+    CommentEditView,
 )
 
 urlpatterns = [
@@ -13,4 +14,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('recipe/<int:pk>/comment/create', CommentCreateView.as_view(), name='create_comment'),
+    path('recipe/<int:pk>/comment/<int:pk_comment>/edit', CommentEditView.as_view(), name='edit_comment'),
+    path('recipe/<int:pk>/comment/<int:pk_comment>/delete', CommentDeleteView.as_view(), name='delete_comment'),
 ]
