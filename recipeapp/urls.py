@@ -5,6 +5,9 @@ from recipeapp.views import (
     LoginView,
     LogoutView,
     CommentCreateView,
+    recipe_list,
+    recipe_detail,
+    RecipeCreateView,
 )
 
 urlpatterns = [
@@ -13,4 +16,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('recipe/<int:pk>/comment/create', CommentCreateView.as_view(), name='create_comment'),
+    path('recipe/recipe_list', recipe_list, name='recipe_list'),
+    path('recipe/<int:pk>', recipe_detail, name='recipe_detail'),
+    path('recipe/create', RecipeCreateView.as_view(), name='recipe_create'),
 ]

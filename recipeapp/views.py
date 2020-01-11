@@ -18,6 +18,7 @@ def index(request):
     category_list = Category.objects.all()
     return render(request, 'index.html', {'category_list': category_list})
 
+
 class RegisterView(CreateView):
     template_name = 'register.html'
     form_class = UserCreationForm
@@ -69,3 +70,29 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
             **form.cleaned_data
         )
         return redirect(reverse_lazy('show_recipe'))
+
+
+def recipe_list(request):
+    recipe_list = Recipe.objects.all()
+    return render(request, 'recipe_list.html', {'recipe_list': recipe_list})
+
+
+def recipe_detail(request, pk):
+    recipe = Recipe.objects.get(id=pk)
+    return render(request, "recipe_detail.html", {"recipe": recipe})
+
+
+class RecipeCreateView(LoginRequiredMixin, CreateView):
+    model = Recipe
+    #category_list = Category.objects.all()
+    fields = ['title', 'description', 'time', 'difficulty', 'serves', 'ingredients', 'method']
+    template_name = 'recipe_create.html'
+    #context = {'category_list': category_list}
+
+    def form_valid(self, form):
+        recipe = Recipe.objects.create(
+            user=self.request.user,
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy("recipe_detail", kwargs={"pk": recipe.id}))
+
