@@ -62,8 +62,8 @@
       <label for="id_category"> Category </label>
       <br/>
       <select id="id_category" name="category">
-        {% for (id,title) in form.fields.category.choices %}
-          <option value="{{ id }}"> {{title}} </option>
+        {% for choice in form.category.field.choices %}
+          <option value="{{ choice.0 }}"> {{choice.1}} </option>
         {% endfor %}
       </select>
       <br/>

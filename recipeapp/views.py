@@ -85,7 +85,7 @@ def recipe_detail(request, pk):
 class RecipeCreateView(LoginRequiredMixin, CreateView):
     model = Recipe
     #category_list = Category.objects.all()
-    fields = ['title', 'description', 'time', 'difficulty', 'serves', 'ingredients', 'method']
+    fields = ['category', 'title', 'description', 'time', 'difficulty', 'serves', 'ingredients', 'method']
     template_name = 'recipe_create.html'
     #context = {'category_list': category_list}
 
@@ -96,3 +96,18 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
         )
         return redirect(reverse_lazy("recipe_detail", kwargs={"pk": recipe.id}))
 
+class CategoryCreateView(LoginRequiredMixin, CreateView):
+    model = Category
+    fields = ['title', 'image']
+    template_name = 'category_create.html'
+
+    def form_valid(self, form):
+        category = Category.objects.create(
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy("category_list"))
+
+def category_detail(request, pk):
+    category = Category.objects.get(id=pk)
+    recipe_list = Recipe.objects.filter(category=category);
+    return render(request, "category_detail.html", {"category": category, "recipe_list": recipe_list})

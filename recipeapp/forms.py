@@ -12,8 +12,14 @@ class UserProfileForm(forms.ModelForm):
 
 
 class RecipeForm(forms.ModelForm):
-    #category = forms.ChoiceField(choices=[(c.id, c.title) for c in models.Category.objects.all()])
+    category = forms.ModelChoiceField(queryset = models.Category.objects.all())
 
     class Meta:
         model = models.Recipe
         fields = ['title', 'description', 'time', 'difficulty', 'serves', 'ingredients', 'method']
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = models.Category
+        fields = ['title','image']
