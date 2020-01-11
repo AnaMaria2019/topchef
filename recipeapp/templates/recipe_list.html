@@ -1,16 +1,35 @@
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'
+      type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet'
+      type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet'
+      type='text/css'>
+
+<link href="https://fonts.googleapis.com/css?family=Cookie&display=swap" rel="stylesheet">
+
 {% extends 'base.html' %}
 
 {% block title %} All Recipes {% endblock %}
 
 {% block content %}
 <div class="container">
+      <br />
       {% for recipe in recipe_list %}
-        <h2> {{ recipe.title}} </h2>
-        <br/>
-        <h3> Total time: {{recipe.time}} </h3>
-        <span><a href="{% url 'recipe_detail' recipe.id %}"> View full recipe details </a></span>
+        <div style="border: 2px dotted gray; border-radius:15px; padding:20px; margin:20px;">
+            <h2  style="line-height: 2; text-align: left; font-family:Cookie; font-weight:300;"> {{ recipe.title}} </h2>
+            <h3  style="line-height: 2; text-align: left; font-family:Cookie; font-weight:300;"> Category: {{recipe.category}} </h3>
+            <h3  style="line-height: 2; text-align: left; font-family:Cookie; font-weight:300;"> Total time: {{recipe.time}} </h3>
+            {% if recipe.image %}
+                <img style="height:200px; width:300px;" src="{{recipe.image.url}}" >
+                <br />
+            {% endif %}
+            <br />
+            <span style="line-height: 1.5; text-align: left; font-family:Montserrat; margin:auto; font-weight:400; font-style:italic">
+                <a href="{% url 'recipe_detail' recipe.id %}"> View full recipe details </a>
+            </span>
+        </div>
       {% empty %}
-        <span>No Recipes</span>
+        <h2  style="line-height: 1.8; text-align: center; font-family:Montserrat; font-weight:400; font-style:normal"> No Recipes </h2>
       {% endfor %}
 </div>
 
