@@ -1,6 +1,8 @@
+from __future__ import unicode_literals
 from django.contrib.auth import get_user_model
 from django.db import models
 from enum import Enum
+
 
 User = get_user_model()
 
@@ -18,6 +20,8 @@ class Tag(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=30)
     image = models.FileField(upload_to='media/', blank=True, null=True)
+    def __str__(self):
+        return self.title
 
 
 class Recipe(models.Model):
@@ -32,7 +36,7 @@ class Recipe(models.Model):
     # de adaugat clasa Ingredients
     method = models.CharField(max_length=800)
     rating = models.IntegerField(default=0)
-    tags = models.ManyToManyField(Tag, related_name='tags', blank=True)
+    image = models.FileField(upload_to='media/', blank=True, null=True)
 
 
 class Comment(models.Model):

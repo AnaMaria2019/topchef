@@ -17,11 +17,11 @@ class UserProfileForm(forms.ModelForm):
 
 
 class RecipeForm(forms.ModelForm):
-    category = forms.ModelChoiceField(queryset=models.Category.objects.all())
+    category = forms.ModelChoiceField(queryset=models.Category.objects.all().order_by('title'), empty_label="Category")
 
     class Meta:
         model = models.Recipe
-        fields = ['title', 'description', 'time', 'difficulty', 'serves', 'ingredients', 'method']
+        fields = ['title', 'description', 'time', 'difficulty', 'serves', 'ingredients', 'method','image']
 
 
 class CategoryForm(forms.ModelForm):
