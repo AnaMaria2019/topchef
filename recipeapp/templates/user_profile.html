@@ -1,26 +1,26 @@
 {% extends 'base.html' %}
 
-{% block title %} User Profile - {{ userprofile.user.username }} {% endblock %}
+{% block title %} User Profile - {{ userprofile.username }} {% endblock %}
 
 {% block content %}
   <div class="container">
-    {% if user == userprofile.user %}
+    {% if user == userprofile %}
       <div class="m-2">
-        <a class="btn btn-primary" href="{% url 'user_profile_edit' userprofile.id %}">Edit profile</a>
+        <a class="btn btn-primary" href="{% url 'edit_user_profile' userprofile.id %}">Edit profile</a>
       </div>
     {% endif %}
 
-    <h1>{{ userprofile.user.username }}' Profile</h1>
-    {% if user == userprofile.user %}
+    <h1>{{ userprofile.username }}' Profile</h1>
     <ul class="list-group m-4">
-      {% if userprofile.avatar %}
-      <p><b>Avatar:</b></p><img style="margin-bottom:20px;" src="{{ userprofile.avatar.url }}" width="200px">
+    {% if user == userprofile %}
+      {% if userprofile.profile.first.avatar %}
+        <p><b>Avatar:</b></p><img style="margin-bottom:20px;" src="{{ userprofile.profile.first.avatar.url }}" width="200px">
       {% endif %}
-      <li class="list-group-item"><b>Fullname:</b> {{ userprofile.user.first_name }} {{ userprofile.user.last_name }}</li>
-      <li class="list-group-item"><b>Username:</b> {{ userprofile.user.username }}</li>
-      <li class="list-group-item"><b>E-mail:</b> {{ userprofile.user.email }}</li>
-
-    </ul>
+      <li class="list-group-item"><b>Fullname:</b> {{ userprofile.first_name }} {{ userprofile.last_name }}</li>
+      <li class="list-group-item"><b>Username:</b> {{ userprofile.username }}</li>
+      <li class="list-group-item"><b>E-mail:</b> {{ userprofile.email }}</li>
     {% endif %}
+      <li class="list-group-item"><b>About me:</b> {{ userprofile.profile.first.selfdescription }}</li>
+    </ul>
   </div>
 {% endblock %}

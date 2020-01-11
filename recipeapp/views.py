@@ -57,6 +57,42 @@ class LogoutView(LoginRequiredMixin, View):
         return redirect(reverse_lazy('category_list'))
 
 
+class UserProfileView(DetailView):
+    template_name = 'user_profile.html'
+    context_object_name = 'userprofile'
+
+    def get_object(self):
+        user = User.objects.get(id=self.kwargs['pk'])
+        return user
+
+
+class UserProfileEditView(LoginRequiredMixin, UpdateView):
+    model = UserProfile
+    form_class = UserProfileForm
+    template_name = 'edit_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileEditView, self).get_context_data(**kwargs)
+        user = self.object.user
+        context['form'].fields['first_name'].initial = user.first_name
+        context['form'].fields['last_name'].initial = user.last_name
+        context['form'].fields['e_mail'].initial = user.email
+        return context
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        self.object.selfdescription = data['selfdescription']
+        self.object.avatar = data['avatar']
+        self.request.user.first_name = data['first_name']
+        self.request.user.last_name = data['last_name']
+        self.request.user.email = data['e_mail']
+        self.object.save()
+        self.request.user.save()
+        return redirect(reverse_lazy('user_profile',
+                                     kwargs={'pk': self.request.user.id}))
+
+
+
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     fields = ['content']
