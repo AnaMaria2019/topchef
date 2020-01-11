@@ -3,27 +3,34 @@
 {% block title %} Top Chef {% endblock %}
 
 {% block content %}
+<div>
   {% if user.is_superuser %}
-    <a class="btn btn-secondary" style="margin-left:1.2%;margin-top:5%;" href="#">
+    <a class="btn btn-secondary" style="margin-left:1.2%;margin-top:5%;" href="{% url 'category_create' %}">
       Create category
     </a>
   {% endif %}
+
+    {% if user.is_superuser %}
+    <a class="btn btn-secondary" style="margin-left:1.2%;margin-top:5%;" href="{% url 'tag_create' %}">
+      Create tag
+    </a>
+  {% endif %}
+
   {% if user.is_authenticated %}
-    <a class="btn btn-secondary" style="margin-left:1.2%;margin-top:5%;" href="#">
+    <a class="btn btn-secondary pull-right" style="margin-left:1.2%;margin-top:5%;" href="{% url 'recipe_create' %}">
       Create recipe
     </a>
   {% endif %}
 
-  <div class="row container">
+  <div class="row container" style="border:3px solid dimgrey; margin: 10px;">
     {% for category in category_list %}
-      <div class="col-sm-6 p-3">
-        <div class="card">
-          <div class="card-body">
+      <div class="col-sm-6 p-3" style="text-align:center; color: dimgrey; font-family:'Crimson Text'">
             <h5 class="card-title">{{ category.title}}</h5>
-            <a href="#" class="btn btn-primary"> <img src="{{category.image.url}} }"height="128" width="128" /></a>
-          </div>
-        </div>
+            {% if category.image %}
+            <a href="{% url 'category_detail' category.id %}" class="btn btn-primary" style="outline:none; background-color:white; border-color:white;"> <img src="{{ category.image.url }}" height="400px;" /></a>
+            {% endif %}
       </div>
     {% endfor %}
   </div>
+</div>
 {% endblock %}

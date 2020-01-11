@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+  Create tag
+{% endblock%}
+
+{% block content %}
+  <form method="post" class="form-inline justify-content-center" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group mx-2" style="">
+      <label for="name">Name</label>
+      <input class="form-control" type="text"
+      name="name" required="" id="name">
+    </div>
+    <input class="btn btn-secondary" type="submit" value="Create tag" />
+  </form>
+{% endblock %}

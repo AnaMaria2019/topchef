@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} All Recipes {% endblock %}
+
+{% block content %}
+<div class="container">
+      {% for recipe in recipe_list %}
+        <h2> {{ recipe.title}} </h2>
+        <br/>
+        <h3> Total time: {{recipe.time}} </h3>
+        <span><a href="{% url 'recipe_detail' recipe.id %}"> View full recipe details </a></span>
+      {% empty %}
+        <span>No Recipes</span>
+      {% endfor %}
+</div>
+
+{% endblock %}

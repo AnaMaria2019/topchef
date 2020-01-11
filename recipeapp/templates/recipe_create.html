@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}
+  Create Recipe
+{% endblock%}
+
+{% block content %}
+  <form method="post" class="form-inline justify-content-center" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group mx-2">
+      <label for="title"> Title </label>
+      <input type="text" name="title" id ="title">
+      <br/>
+    </div>
+    {{ value|linebreaks }}
+
+    <div class="form-group mx-2">
+      <label for="desc"> Description </label>
+      <textarea rows="4" cols="50" class="form-control" type="text-area"
+      name="description" id="desc" maxlength="500"></textarea>
+      <br/>
+    </div>
+    <br/>
+
+    <div class="form-group mx-2">
+      <label for="time"> Time </label>
+      <input type="text" name="time" id="time">
+      <br/>
+    </div>
+    <br/>
+
+    <div class="form-group mx-2">
+      <label for="dif"> Difficulty</label>
+      <input type="text" name="difficulty" id="dif">
+      <br/>
+    </div>
+    <br/>
+
+    <div class="form-group mx-2">
+      <label for="serves"> Serves</label>
+      <input type="text" name="serves" id="serves">
+      <br />
+    </div>
+    <br/>
+
+    <div class="form-group mx-2">
+      <label for="ing"> Ingredients</label>
+      <textarea rows="4" cols="50" class="form-control" type="text-area"
+      name="ingredients" id="ing" maxlength="400"></textarea>
+      <br />
+    </div>
+    <br/>
+
+    <div class="form-group mx-2">
+      <label for="method"> Method</label>
+      <textarea rows="4" cols="50" class="form-control" type="text-area"
+      name="method" id="method" maxlength="800"></textarea>
+      <br/>
+    </div>
+    <br/>
+
+    <div class="form-group mx-2">
+      <label for="id_category"> Category </label>
+      <br/>
+      <select id="id_category" name="category">
+        {% for choice in form.category.field.choices %}
+          <option value="{{ choice.0 }}"> {{choice.1}} </option>
+        {% endfor %}
+      </select>
+      <br/>
+    </div>
+    <br/>
+
+    <input class="btn btn-secondary" type="submit" value="Create post" />
+  </form>
+{% endblock %}

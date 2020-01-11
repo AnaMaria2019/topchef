@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %} Top Chef {% endblock %}
+
+{% block content %}
+  <div class="row container" style="border:3px solid dimgrey; margin: 10px;">
+    {% for recipe in recipe_list %}
+      <div class="col-sm-6 p-3" style="text-align:center; color: dimgrey; font-family:'Crimson Text'">
+            <h5 class="card-title">{{ recipe.title}}</h5>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

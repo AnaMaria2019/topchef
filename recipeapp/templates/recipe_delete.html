@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Delete recipe
+{% endblock%}
+
+{% block content %}
+  <div class="container m-5">
+    <h5>Are you sure you want to delete the recipe?</h5>
+
+    <form method="post" class="form-inline">
+        {% csrf_token %}
+        <input class="btn btn-secondary" type="submit" value="Delete recipe" />
+    </form>
+
+  </div>
+{% endblock %}

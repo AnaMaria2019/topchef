@@ -3,10 +3,15 @@
     <a class="nav-link active" href="{% url 'category_list' %}"> Top Chef </a>
   </li>
 
+  <li class="nav-item">
+    <a class="nav-link active" href="{% url 'recipe_list' %}">Recipes</a>
+  </li>
+
   {% if user.is_authenticated %}
     <li class="nav-item">
       <a class="nav-link active" href="{% url 'user_profile' user.id %}">Hello, {{ user.username }}</a>
     </li>
+
     {% if user.is_superuser %}
     <li class="nav-item">
       <a class="nav-link active" href="{% url 'admin:index' %}">Admin</a>

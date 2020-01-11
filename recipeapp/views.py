@@ -18,6 +18,7 @@ def index(request):
     category_list = Category.objects.all()
     return render(request, 'index.html', {'category_list': category_list})
 
+
 class RegisterView(CreateView):
     template_name = 'register.html'
     form_class = UserCreationForm
@@ -104,6 +105,74 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
             recipe=recipe,
             **form.cleaned_data
         )
+        return redirect(reverse_lazy('show_recipe'))
+
+
+def recipe_list(request):
+    recipe_list = Recipe.objects.all()
+    return render(request, 'recipe_list.html', {'recipe_list': recipe_list})
+
+
+def recipe_detail(request, pk):
+    recipe = Recipe.objects.get(id=pk)
+    return render(request, "recipe_detail.html", {"recipe": recipe})
+
+
+class RecipeCreateView(LoginRequiredMixin, CreateView):
+    model = Recipe
+    #category_list = Category.objects.all()
+    fields = ['category', 'title', 'description', 'time', 'difficulty', 'serves', 'ingredients', 'method']
+    template_name = 'recipe_create.html'
+    #context = {'category_list': category_list}
+
+    def form_valid(self, form):
+        recipe = Recipe.objects.create(
+            user=self.request.user,
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy("recipe_detail", kwargs={"pk": recipe.id}))
+
+
+@login_required
+def recipe_delete(request, pk):
+    if request.method == "POST":
+        recipe = Recipe.objects.get(pk=pk)
+        recipe.delete()
+        return redirect(reverse_lazy("recipe_list"))
+    elif request.method == "GET":
+        recipe = Recipe.objects.get(pk=pk)
+        return render(request, "recipe_delete.html",
+                      {"recipe": recipe})
+
+
+class TagCreateView(LoginRequiredMixin, CreateView):
+    model = Tag
+    fields = ['name']
+    template_name = 'tag_create.html'
+
+    def form_valid(self, form):
+        tag = Tag.objects.create(
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy("category_list"))
+
+
+class CategoryCreateView(LoginRequiredMixin, CreateView):
+    model = Category
+    fields = ['title', 'image']
+    template_name = 'category_create.html'
+
+    def form_valid(self, form):
+        category = Category.objects.create(
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy("category_list"))
+
+
+def category_detail(request, pk):
+    category = Category.objects.get(id=pk)
+    recipe_list = Recipe.objects.filter(category=category)
+    return render(request, "category_detail.html", {"category": category, "recipe_list": recipe_list})
         return redirect(reverse_lazy('recipe_detail', kwargs={'pk': self.kwargs['pk']}))
 
 
