@@ -189,7 +189,8 @@ class CommentEditView(LoginRequiredMixin, UpdateView):
 
 class CommentDeleteView(LoginRequiredMixin, DeleteView):
     model = Comment
+    template_name = 'recipe_detail.html'
     pk_url_kwarg = 'pk_comment'
 
     def get_success_url(self):
-        return redirect(reverse_lazy('recipe_detail', kwargs={'pk': self.kwargs['pk']}))
+        return reverse_lazy('recipe_detail', kwargs={'pk': self.kwargs['pk']})

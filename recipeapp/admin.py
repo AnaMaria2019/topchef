@@ -3,6 +3,9 @@ from . import models
 # Register your models here.
 
 class UserProfileAdmin(admin.ModelAdmin):
-        pass
+    pass
+
+class CategoryAdmin(admin.ModelAdmin):
+    pass
 
 admin.site.register(models.UserProfile, UserProfileAdmin)
