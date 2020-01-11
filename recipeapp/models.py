@@ -20,7 +20,7 @@ class Category(models.Model):
 
 class Recipe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='category')
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='category', null=True)
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
     time = models.CharField(max_length=30)
