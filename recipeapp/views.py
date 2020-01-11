@@ -85,7 +85,7 @@ def recipe_detail(request, pk):
 class RecipeCreateView(LoginRequiredMixin, CreateView):
     model = Recipe
     #category_list = Category.objects.all()
-    fields = ['category', 'title', 'description', 'time', 'difficulty', 'serves', 'ingredients', 'method']
+    fields = ['category', 'title', 'description', 'time', 'difficulty', 'serves', 'ingredients', 'method','image']
     template_name = 'recipe_create.html'
     #context = {'category_list': category_list}
 
