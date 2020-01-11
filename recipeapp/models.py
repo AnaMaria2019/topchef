@@ -8,7 +8,7 @@ User = get_user_model()
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile')
     avatar = models.FileField(upload_to='media/', blank=True, null=True)
-    selfdescription = models.CharField(max_length=500)
+    selfdescription = models.CharField(max_length=500, blank=True, null=True)
 
 
 class Tag(models.Model):
@@ -18,9 +18,10 @@ class Tag(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=30)
 
+
 class Recipe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='category')
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='category', null=True, blank=True)
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
     time = models.CharField(max_length=30)

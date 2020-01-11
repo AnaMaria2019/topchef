@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} User Profile - {{ userprofile.user.username }} {% endblock %}
+
+{% block content %}
+  <div class="container">
+    {% if user == userprofile.user %}
+      <div class="m-2">
+        <a class="btn btn-primary" href="{% url 'user_profile_edit' userprofile.id %}">Edit profile</a>
+      </div>
+    {% endif %}
+
+    <h1>{{ userprofile.user.username }}' Profile</h1>
+    {% if user == userprofile.user %}
+    <ul class="list-group m-4">
+      {% if userprofile.avatar %}
+      <p><b>Avatar:</b></p><img style="margin-bottom:20px;" src="{{ userprofile.avatar.url }}" width="200px">
+      {% endif %}
+      <li class="list-group-item"><b>Fullname:</b> {{ userprofile.user.first_name }} {{ userprofile.user.last_name }}</li>
+      <li class="list-group-item"><b>Username:</b> {{ userprofile.user.username }}</li>
+      <li class="list-group-item"><b>E-mail:</b> {{ userprofile.user.email }}</li>
+
+    </ul>
+    {% endif %}
+  </div>
+{% endblock %}
