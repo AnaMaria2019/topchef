@@ -93,7 +93,6 @@ class UserProfileEditView(LoginRequiredMixin, UpdateView):
                                      kwargs={'pk': self.request.user.id}))
 
 
-
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     fields = ['content']
@@ -105,7 +104,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
             recipe=recipe,
             **form.cleaned_data
         )
-        return redirect(reverse_lazy('show_recipe'))
+        return redirect(reverse_lazy('recipe_detail', kwargs={'pk': self.kwargs['pk']}))
 
 
 def recipe_list(request):
@@ -173,7 +172,6 @@ def category_detail(request, pk):
     category = Category.objects.get(id=pk)
     recipe_list = Recipe.objects.filter(category=category)
     return render(request, "category_detail.html", {"category": category, "recipe_list": recipe_list})
-        return redirect(reverse_lazy('recipe_detail', kwargs={'pk': self.kwargs['pk']}))
 
 
 class CommentEditView(LoginRequiredMixin, UpdateView):
