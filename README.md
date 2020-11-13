@@ -35,4 +35,9 @@ Follow all the steps below if you want to get this project up and running on you
   
 ### Run the application
 
+* First you need to create some recipe categories (a user can add a recipe only if he specifies the category too). You are allowed to do this only if there is a superuser registered in the application:
+  * In <strong>Terminal</strong> type `python manage.py createsuperuser`
+  * Enter a valid username and password
+  * Run the application: `python manage.py runserver` and log in the application with the superuser
+  * Create a few categories
 * In 'Terminal' type: `python manage.py runserver`
