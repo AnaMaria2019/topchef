@@ -40,4 +40,4 @@ Follow all the steps below if you want to get this project up and running on you
   * Enter a valid username and password
   * Run the application: `python manage.py runserver` and log in the application with the superuser
   * Create a few categories
-* In 'Terminal' type: `python manage.py runserver`
+* In <strong>Terminal</strong> type: `python manage.py runserver` to run the application
